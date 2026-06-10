@@ -16,22 +16,21 @@ pipeline {
         stage('Restore Dependencies') {
             steps {
                 echo 'Restoring .NET packages...'
-                // Use 'bat' instead of 'sh' if Jenkins is running directly on Windows
-                sh 'dotnet restore "./PollApp.Backend.csproj"'
+                bat 'dotnet restore "./PollApp.Backend.csproj"'
             }
         }
 
         stage('Build') {
             steps {
                 echo 'Building backend...'
-                sh 'dotnet build "./PollApp.Backend.csproj" -c Release --no-restore'
+                bat 'dotnet build "./PollApp.Backend.csproj" -c Release --no-restore'
             }
         }
 
         stage('Docker Build') {
             steps {
                 echo 'Building Docker Image...'
-                sh "docker build -t ${env.DOCKER_IMAGE}:${env.DOCKER_TAG} -t ${env.DOCKER_IMAGE}:latest ."
+                bat "docker build -t ${env.DOCKER_IMAGE}:${env.DOCKER_TAG} -t ${env.DOCKER_IMAGE}:latest ."
             }
         }
 
